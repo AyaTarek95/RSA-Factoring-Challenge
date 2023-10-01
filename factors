@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+'''Module for factorizer(num) methode.'''
+
+import sys
+import time
+
+def factorizer(num):
+    '''Calculate factor of nums.
+
+    Args:
+        num: integer input.
+    Return:
+        A tuple if num is not prime none if prime.
+    '''
+    for x in range(2, num):
+        if num % x == 0:
+            return (x, num // x)
+    return None
+
+if __name__ == '__main__':
+    '''Read file to test'''
+    if len(sys.argv) != 2:
+        print('Usage: factors <file>')
+        exit()
+
+    file_name = sys.argv[1]
+
+    try:
+        with open(file_name, 'r') as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        print('File not found')
+        exit()
+
+    begin_time = time.time()
+
+    '''loop through each line'''
+
+    for line in lines:
+        num = int(line.strip())
+        factors = factorizer(num)
+        if factors:
+            print('{:d}={:d}*{:d}'.format(num, factors[0], factors[1]))
+
+        '''program will be killed after 5 seconds if it is not finished.'''
+
+        if time.time() - begin_time > 5:
+            exit()
